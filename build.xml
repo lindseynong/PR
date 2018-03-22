@@ -1,0 +1,41 @@
+<project default="compile">
+<property name="src.java.dir" location="./src"/>
+<property name="result.dir" location="./"/>
+<property name="result.javaclasses.dir" location="${result.dir}/bin"/>
+
+<path id="NecessaryLibraries">
+<pathelement location="./MyLibraries/junit.jar"/>
+<!--matcher-->
+<pathelement location="./MyLibraries/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+<pathelement location="./MyLibraries/selenium-server-standalone-3.11.0.jar"/>
+
+  
+  </path>
+
+<target name="compile">
+<mkdir dir="${result.javaclasses.dir}"/>
+<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false">
+<classpath>
+<path refid="NecessaryLibraries"/>
+<pathelement location="${result.javaclasses.dir}"/>
+</classpath>
+</javac>
+</target>
+
+<target name="test" depends="compile">
+<!--fork : each test will run in its own JVM (to seperate test cases)-->
+<junit printsummary="true" haltonfailure="true" fork="true">
+<classpath>
+<path refid="NecessaryLibraries"></path>
+  <pathelement location="${result.javaclasses.dir}"/>
+</classpath>
+<formatter type="brief" usefile="false"/>
+<batchtest>
+<fileset dir="${result.javaclasses.dir}">
+<include name="TestFacebookWithJUnit.class"/>
+
+</fileset>
+</batchtest>
+</junit>
+</target>
+</project>
