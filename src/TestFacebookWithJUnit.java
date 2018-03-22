@@ -28,7 +28,7 @@ public void tearDown() throws Exception{
 		driver.manage().window().maximize();
 		driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("iasjdiaosjd@gmail.com");
 		driver.findElement(By.xpath(".//*[@id='pass']")).sendKeys("Asdasd123!");
-		driver.findElement(By.xpath(".//*[@id='u_0_2']")).click();
+		driver.findElement(By.xpath(".//*[@id='u_0_z']")).click();
 	}
 
 }
