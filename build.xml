@@ -3,7 +3,9 @@
 <property name="src.java.dir" location="./src"/>
 <property name="result.dir" location="./"/>
 <property name="result.javaclasses.dir" location="${result.dir}/bin"/>
-
+<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+<classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
+</taskdef>
 
 <property name="sonar.jdbc.username" value="sonar"/>
 <property name="sonar.jdbc.password" value="sonar"/>
@@ -25,9 +27,7 @@
 
 
 <target name="sonar" depends="compile">
-<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
-<classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
-</taskdef>
+
 
 <sonar:sonar/>
 </target>
