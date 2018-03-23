@@ -20,7 +20,7 @@
 
 <target name="compile">
 <mkdir dir="${result.javaclasses.dir}"/>
-<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false"
+<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false">
 
 </javac>
 </target>
