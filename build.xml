@@ -27,7 +27,7 @@
 
 
 <target name="sonar" depends="compile">
-<sonar:compile/>
+ <sonar:sonar xmlns:sonar="antlib:org.sonar.ant"/>
 </target>
 <target name="all" depends="compile,sonar"/>
 </project>
