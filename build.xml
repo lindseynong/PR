@@ -1,5 +1,5 @@
 
-<project default="all" basedir="." xmlns:sonar="antlib:org.sonar.ant">
+<project default="all" basedir="./" xmlns:sonar="antlib:org.sonar.ant">
 <property name="src.java.dir" location="./src"/>
 <property name="result.dir" location="./"/>
 <property name="result.javaclasses.dir" location="${result.dir}/bin"/>
@@ -27,7 +27,7 @@
 
 
 <target name="sonar" depends="compile">
- <sonar:sonar xmlns:sonar="antlib:org.sonar.ant"/>
+ <sonar:sonar/>
 </target>
 <target name="all" depends="compile,sonar"/>
 </project>
