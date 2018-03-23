@@ -28,7 +28,7 @@
 <classpath path="C:/Users/Computer/Desktop/SE/apache-ant-1.10.1/lib/sonarqube-ant-task-2.5.jar"/>
 </taskdef>
 
-<sonar/>
+<sonar:sonar/>
 </target>
 <target name="all" depends="compile,sonar"/>
 </project>
