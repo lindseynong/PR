@@ -8,8 +8,8 @@
 </taskdef>
 
 
-<property name="sonar.jdbc.username" value="admin"/>
-<property name="sonar.jdbc.password" value="admin"/>
+<property name="sonar.jdbc.username" value="sonar"/>
+<property name="sonar.jdbc.password" value="sonar"/>
 <property name="onar.host.url" value="http://localhost:9000"/>
 <property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant"/>
 <property name="sonar.projectName" value="Example of SonarQube Scanner for Ant Usage"/>
@@ -27,6 +27,9 @@
 
 
 <target name="sonar" depends="compile">
+    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+<classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
+</taskdef>
 <sonar:sonar/>
 </target>
 <target name="all" depends="compile,sonar"/>
