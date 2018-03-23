@@ -5,15 +5,15 @@
 <property name="result.javaclasses.dir" location="${result.dir}/bin"/>
 
 
-<property name="sonar.jdbc.username" value="sonar" />
-<property name="sonar.jdbc.password" value="sonar" />
-<property name="onar.host.url" value="http://localhost:9000" />
-<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant" />
-<property name="sonar.projectName" value="Example of SonarQube Scanner for Ant Usage" />
-<property name="sonar.projectVersion" value="1.0" />
-<property name="sonar.language" value="java" />
-<property name="sonar.sources" value="./src" />
-<property name="sonar.java.binaries" value="./" />
+<property name="sonar.jdbc.username" value="sonar"/>
+<property name="sonar.jdbc.password" value="sonar"/>
+<property name="onar.host.url" value="http://localhost:9000"/>
+<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant"/>
+<property name="sonar.projectName" value="Example of SonarQube Scanner for Ant Usage"/>
+<property name="sonar.projectVersion" value="1.0"/>
+<property name="sonar.language" value="java"/>
+<property name="sonar.sources" value="./src"/>
+<property name="sonar.java.binaries" value="./"/>
 
 
 <target name="compile">
@@ -22,14 +22,14 @@
 
 </javac>
 </target>
+
+
+<target name="sonar" depends="compile">
 <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
 <classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
 </taskdef>
 
-<target name="sonar" depends="compile">
-
-
-<sonar:sonar />
+<sonar:sonar/>
 </target>
-<target name="all" depends="compile,sonar" />
+<target name="all" depends="compile,sonar"/>
 </project>
