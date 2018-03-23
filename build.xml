@@ -27,9 +27,7 @@
 
 
 <target name="sonar" depends="compile">
-
-
-<sonar:sonar/>
+<sonar:compile/>
 </target>
 <target name="all" depends="compile,sonar"/>
 </project>
