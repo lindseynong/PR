@@ -30,7 +30,7 @@
     <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
 <classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
 </taskdef>
-<sonar:sonar/>
+<sonar/>
 </target>
 <target name="all" depends="compile,sonar"/>
 </project>
