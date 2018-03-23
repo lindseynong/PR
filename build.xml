@@ -1,18 +1,8 @@
-
 <project default="all" basedir="." xmlns:sonar="antlib:org.sonar.ant">
 <property name="src.java.dir" location="./src"/>
 <property name="result.dir" location="./"/>
 <property name="result.javaclasses.dir" location="${result.dir}/bin"/>
 
-
-
-
-<target name="compile">
-<mkdir dir="${result.javaclasses.dir}"/>
-<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false">
-
-</javac>
-</target>
 
 
 <property name="sonar.jdbc.username" value="sonar"/>
@@ -24,6 +14,15 @@
 <property name="sonar.language" value="java"/>
 <property name="sonar.sources" value="./src"/>
 <property name="sonar.java.binaries" value="./"/>
+
+<target name="compile">
+<mkdir dir="${result.javaclasses.dir}"/>
+<javac srcdir="${src.java.dir}" destdir="${result.javaclasses.dir}" debug="true" includeantruntime="false"
+
+</javac>
+</target>
+
+
 <target name="sonar" depends="compile">
 <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
 <classpath path="C:/Users/Computer/Desktop/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
