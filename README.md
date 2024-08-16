@@ -20,6 +20,7 @@ Some commonly used tools:
 - HTML / CSS / JavaScript / Nextjs
 - Python
 - React
+- Tailwind
 - Node.js
 - Git & GitHub
 
