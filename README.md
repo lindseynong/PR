@@ -19,6 +19,7 @@ This repo is mainly used for:
 Some commonly used tools:
 - HTML / CSS / JavaScript / Nextjs
 - Python
+- React
 - Node.js
 - Git & GitHub
 
