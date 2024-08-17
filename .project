@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>SEProjectN</name>
-	<comment></comment>
+	<comment>Initial Eclipse project setup for Software Engineering Project</comment>
 	<projects>
+		<project>ExternalLibrary</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
