@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>SEProjectN</name>
-	<comment>Initial Eclipse project setup for Software Engineering Project</comment>
+	<comment>Full-stack Eclipse project with Java, Maven, Web, and Spring support</comment>
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
+		<project>CoreServices</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -32,5 +33,7 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>org.eclipse.spring.ide.nature.simple</nature>
 	</natures>
 </projectDescription>
