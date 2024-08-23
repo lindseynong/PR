@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>SEProjectN</name>
-	<comment>Full-stack Eclipse project with Java, Maven, Web, and Spring support</comment>
+	<comment>Full-stack Eclipse project with Java, Maven, Web, Spring, and team tooling support</comment>
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
 		<project>CoreServices</project>
+		<project>TeamUtils</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
+			<arguments/>
 		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
-			<arguments>
-			</arguments>
+			<arguments/>
 		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.wst.common.project.facet.core.builder</name>
-			<arguments>
-			</arguments>
+			<arguments/>
 		</buildCommand>
 		<buildCommand>
 			<name>com.example.custom.validation.builder</name>
-			<arguments>
-			</arguments>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.eclemma.core.instrumentationbuilder</name>
+			<arguments/>
 		</buildCommand>
 	</buildSpec>
 	<natures>
@@ -35,5 +40,6 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.eclipse.spring.ide.nature.simple</nature>
+		<nature>org.eclipse.egit.core.GitNature</nature>
 	</natures>
 </projectDescription>
