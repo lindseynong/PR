@@ -8,5 +8,15 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="C:/Users/Computer/Desktop/SE/Project/selenium-server-standalone-3.11.0.jar"/>
+	
+	<!-- Spring Framework classpath entry -->
+	<classpathentry kind="lib" path="libs/spring-context-5.3.27.jar"/>
+
+	<!-- JavaScript support -->
+	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
+
+	<!-- Linked CoreServices project -->
+	<classpathentry kind="src" path="/CoreServices"/>
+
 	<classpathentry kind="output" path="bin"/>
 </classpath>
