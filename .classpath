@@ -1,39 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<!-- Source folders -->
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
-
-	<!-- Linked Project -->
-	<classpathentry kind="src" path="/CoreServices"/>
-
-	<!-- Output -->
-	<classpathentry kind="output" path="bin"/>
-
-	<!-- JRE System Library -->
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-9">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-
-	<!-- Maven Dependencies -->
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
-
-	<!-- JUnit -->
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-
-	<!-- JavaScript Support -->
-	<classpathentry kind="con" path="org.eclipse.wst.jsdt.launching.JRE_CONTAINER"/>
-
-	<!-- External Libraries -->
-	<classpathentry kind="lib" path="C:/Users/Computer/Desktop/SE/Project/selenium-server-standalone-3.11.0.jar"/>
-	<classpathentry kind="lib" path="libs/spring-context-5.3.27.jar"/>
-	<classpathentry kind="lib" path="libs/commons-lang3-3.12.0.jar"/>
-
-	<!-- Resources Folder -->
-	<classpathentry kind="src" path="resources"/>
-
-	<!-- Checkstyle Configuration (virtual entry for context) -->
-	<classpathentry kind="var" path="CHECKSTYLE_CONFIGURATION"/>
-</classpath>
+<projectDescription>
+	<name>SEProjectN</name>
+	<comment>Enterprise-ready Eclipse project with Java, Maven, Web, Spring, testing, and Git collaboration tools</comment>
+	<projects>
+		<project>ExternalLibrary</project>
+		<project>SharedResources</project>
+		<project>CoreServices</project>
+		<project>TeamUtils</project>
+		<project>TestFramework</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.example.custom.validation.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.eclemma.core.instrumentationbuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.junit.JUnitBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.example.performance.profiler.builder</name>
+			<arguments/>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>org.eclipse.spring.ide.nature.simple</nature>
+		<nature>org.eclipse.egit.core.GitNature</nature>
+	</natures>
+</projectDescription>
