@@ -23,7 +23,7 @@ public class TestFacebookRegistration {
         sel.selectByIndex(3);
         driver.findElement(By.xpath(".//*[@id='u_0_2']")).click();
 
-        // 🔽 New: Take a screenshot after submission
+        // 🆕 Take a screenshot after submission
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File src = ts.getScreenshotAs(OutputType.FILE);
@@ -33,6 +33,19 @@ public class TestFacebookRegistration {
             System.out.println("⚠️ Screenshot capture failed: " + e.getMessage());
         }
 
-        driver.quit(); // Optional: Close the browser after test
+        // 🆕 Validate if error message appeared
+        try {
+            Thread.sleep(3000); // Wait for the page to process submission
+            boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required')]")).size() > 0;
+            if (isErrorDisplayed) {
+                System.out.println("✅ Error message displayed as expected.");
+            } else {
+                System.out.println("❌ No error message found — unexpected behavior.");
+            }
+        } catch (Exception e) {
+            System.out.println("⚠️ Validation check failed: " + e.getMessage());
+        }
+
+        driver.quit();
     }
 }
