@@ -17,23 +17,13 @@ public class TestFacebookRegistration {
         driver = new FirefoxDriver();
         driver.get("http://facebook.com");
         driver.manage().window().maximize();
-
         driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("iasjdiaosjd@gmail.com");
         driver.findElement(By.xpath(".//*[@id='pass']")).sendKeys("Asdasd123!");
-
-        // 🆕 Select birthdate (Day, Month, Year)
-        Select day = new Select(driver.findElement(By.id("day")));
-        day.selectByVisibleText("15");
-
-        Select month = new Select(driver.findElement(By.id("month")));
-        month.selectByVisibleText("Apr");
-
-        Select year = new Select(driver.findElement(By.id("year")));
-        year.selectByVisibleText("1995");
-
+        Select sel = new Select(driver.findElement(By.xpath(".//*[@id='month']")));
+        sel.selectByIndex(3);
         driver.findElement(By.xpath(".//*[@id='u_0_2']")).click();
 
-        // Screenshot after submission
+        // 🆕 Take a screenshot after submission
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File src = ts.getScreenshotAs(OutputType.FILE);
@@ -43,9 +33,9 @@ public class TestFacebookRegistration {
             System.out.println("⚠️ Screenshot capture failed: " + e.getMessage());
         }
 
-        // Error validation
+        // 🆕 Validate if error message appeared
         try {
-            Thread.sleep(3000);
+            Thread.sleep(3000); // Wait for the page to process submission
             boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required')]")).size() > 0;
             if (isErrorDisplayed) {
                 System.out.println("✅ Error message displayed as expected.");
