@@ -1,6 +1,9 @@
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -13,27 +16,47 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import org.apache.commons.io.FileUtils;
 
+@RunWith(Parameterized.class)
 public class TestFacebookWithJUnit {
+
+    private final String email;
+    private final String password;
+    private final int index;
     static WebDriver driver;
     FirefoxOptions options = new FirefoxOptions();
     static String timestamp;
 
-    // 🆕 Rule to take screenshot only when test fails
+    // 🧪 Constructor: receives data for each run
+    public TestFacebookWithJUnit(String email, String password, int index) {
+        this.email = email;
+        this.password = password;
+        this.index = index;
+    }
+
+    // 🆕 Provide parameters
+    @Parameterized.Parameters
+    public static Collection<Object[]> testData() {
+        return Arrays.asList(new Object[][] {
+            {"user1@example.com", "Test123!", 1},
+            {"user2@example.com", "Invalid!", 2},
+            {"user3@example.com", "AsdfQwe123", 3}
+        });
+    }
+
     @Rule
     public TestWatcher watcher = new TestWatcher() {
         @Override
         protected void failed(Throwable e, Description description) {
-            takeScreenshot("FAIL_" + description.getMethodName());
+            takeScreenshot("FAIL_" + description.getMethodName() + "_" + index);
         }
 
         @Override
         protected void succeeded(Description description) {
-            System.out.println("✅ Test passed: " + description.getMethodName());
+            System.out.println("✅ Test passed: " + description.getMethodName() + " [" + index + "]");
         }
     };
 
@@ -44,7 +67,7 @@ public class TestFacebookWithJUnit {
         options.addPreference("browser.tabs.remote.autostart", false);
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
-        System.out.println("🔧 [" + timestamp + "] Setup complete.");
+        System.out.println("🚀 [" + timestamp + "] Starting test #" + index + " with email: " + email);
     }
 
     @After
@@ -52,10 +75,9 @@ public class TestFacebookWithJUnit {
         if (driver != null) {
             driver.quit();
         }
-        System.out.println("🔚 Teardown complete.\n");
+        System.out.println("🔚 Test #" + index + " complete.\n");
     }
 
-    // 🆕 Reusable screenshot method
     private void takeScreenshot(String label) {
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
@@ -64,20 +86,16 @@ public class TestFacebookWithJUnit {
             FileUtils.copyFile(src, new File(filePath));
             System.out.println("📸 Screenshot saved: " + filePath);
         } catch (IOException e) {
-            System.out.println("⚠️ Failed to capture screenshot: " + e.getMessage());
+            System.out.println("⚠️ Screenshot failed: " + e.getMessage());
         }
     }
 
     @Test
-    public void testFacebookSignupForm() {
+    public void testFacebookSignupFormWithMultipleData() {
         driver.get("http://facebook.com");
 
-        // 🆕 Generate random email
-        String randomEmail = "user_" + UUID.randomUUID().toString().substring(0, 5) + "@example.com";
-        System.out.println("🧪 Using test email: " + randomEmail);
-
-        driver.findElement(By.id("email")).sendKeys(randomEmail);
-        driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
+        driver.findElement(By.id("email")).sendKeys(email);
+        driver.findElement(By.id("pass")).sendKeys(password);
         new Select(driver.findElement(By.id("day"))).selectByVisibleText("10");
         new Select(driver.findElement(By.id("month"))).selectByVisibleText("Jun");
         new Select(driver.findElement(By.id("year"))).selectByVisibleText("1990");
@@ -86,7 +104,7 @@ public class TestFacebookWithJUnit {
             WebElement genderRadio = driver.findElement(By.xpath("//label[text()='Male']/preceding-sibling::input"));
             genderRadio.click();
         } catch (Exception e) {
-            System.out.println("⚠️ Could not select gender.");
+            System.out.println("⚠️ Gender selection failed.");
         }
 
         driver.findElement(By.name("websubmit")).click();
@@ -99,9 +117,9 @@ public class TestFacebookWithJUnit {
             ));
             errorAppeared = errorMsg.isDisplayed();
         } catch (TimeoutException e) {
-            System.out.println("❌ No error message detected.");
+            System.out.println("❌ Error message not found for data set #" + index);
         }
 
-        assertTrue("Expected error message after submission.", errorAppeared);
+        assertTrue("Expected error message was not displayed for test #" + index, errorAppeared);
     }
 }
