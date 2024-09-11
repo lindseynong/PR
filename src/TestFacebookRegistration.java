@@ -17,10 +17,12 @@ public class TestFacebookRegistration {
     static WebDriver driver;
 
     public static void main(String[] ar) {
+        long startTime = System.currentTimeMillis();
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String randomEmail = "user_" + UUID.randomUUID().toString().substring(0, 5) + "@example.com";
-        System.setProperty("webdriver.gecko.driver", "C:\\Users\\Computer\\Desktop\\geckodriver.exe");
+        String randomEmail = "user_" + UUID.randomUUID().toString().substring(0, 6) + "@example.com";
+        String genderToSelect = "Female"; // 🔁 Change this to "Male" or "Custom" if needed
 
+        System.setProperty("webdriver.gecko.driver", "C:\\Users\\Computer\\Desktop\\geckodriver.exe");
         driver = new FirefoxDriver();
         driver.get("http://facebook.com");
         driver.manage().window().maximize();
@@ -28,54 +30,61 @@ public class TestFacebookRegistration {
         System.out.println("🚀 Test started at " + timestamp);
         System.out.println("📧 Using random email: " + randomEmail);
 
-        // Input fields
-        driver.findElement(By.id("email")).sendKeys(randomEmail);
-        driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
-        System.out.println("🖋️ Entered email and password");
-
-        // Birthdate
-        new Select(driver.findElement(By.id("day"))).selectByVisibleText("15");
-        new Select(driver.findElement(By.id("month"))).selectByVisibleText("Apr");
-        new Select(driver.findElement(By.id("year"))).selectByVisibleText("1995");
-        System.out.println("📅 Selected birth date");
-
-        // Gender
         try {
-            driver.findElement(By.xpath("//label[text()='Male']/preceding-sibling::input")).click();
-            System.out.println("👤 Selected gender: Male");
-        } catch (Exception e) {
-            System.out.println("⚠️ Gender selection failed: " + e.getMessage());
-        }
+            // 🔍 Check if fields exist first
+            if (driver.findElements(By.id("email")).isEmpty() || driver.findElements(By.id("pass")).isEmpty()) {
+                throw new RuntimeException("❌ Email or password input field not found.");
+            }
 
-        // Log pre-submit title
-        System.out.println("📄 Page title before submit: " + driver.getTitle());
+            driver.findElement(By.id("email")).sendKeys(randomEmail);
+            driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
+            System.out.println("🖋️ Entered credentials.");
 
-        // Submit form
-        driver.findElement(By.name("websubmit")).click();
+            // 📅 Birthdate
+            new Select(driver.findElement(By.id("day"))).selectByVisibleText("15");
+            new Select(driver.findElement(By.id("month"))).selectByVisibleText("Apr");
+            new Select(driver.findElement(By.id("year"))).selectByVisibleText("1995");
+            System.out.println("📅 Selected birth date.");
 
-        // Wait & capture screenshot
-        try {
+            // 👤 Dynamic gender selection
+            try {
+                String xpath = String.format("//label[text()='%s']/preceding-sibling::input", genderToSelect);
+                driver.findElement(By.xpath(xpath)).click();
+                System.out.println("👤 Selected gender: " + genderToSelect);
+            } catch (Exception e) {
+                System.out.println("⚠️ Could not select gender: " + genderToSelect + " — " + e.getMessage());
+            }
+
+            System.out.println("📄 Page title before submit: " + driver.getTitle());
+
+            // Submit form
+            driver.findElement(By.name("websubmit")).click();
+
+            // 🖼️ Screenshot
             Thread.sleep(3000);
             TakesScreenshot ts = (TakesScreenshot) driver;
             File src = ts.getScreenshotAs(OutputType.FILE);
             String screenshotPath = "C:\\Users\\Computer\\Desktop\\fb_test_" + timestamp + ".png";
             FileUtils.copyFile(src, new File(screenshotPath));
             System.out.println("📸 Screenshot saved at: " + screenshotPath);
-        } catch (IOException | InterruptedException e) {
-            System.out.println("⚠️ Screenshot capture failed: " + e.getMessage());
+
+            // 🧪 Error validation
+            boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required') or contains(text(), 'invalid')]")).size() > 0;
+            System.out.println("📄 Page title after submit: " + driver.getTitle());
+
+            if (isErrorDisplayed) {
+                System.out.println("✅ Error message displayed as expected.");
+            } else {
+                System.out.println("❌ No error message — review validation logic.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("💥 Test failed due to: " + e.getMessage());
+        } finally {
+            driver.quit();
+            long duration = System.currentTimeMillis() - startTime;
+            System.out.println("⏱️ Execution time: " + duration / 1000.0 + " seconds");
+            System.out.println("✅ Test finished.\n");
         }
-
-        // Post-submit validation
-        boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required') or contains(text(), 'invalid')]")).size() > 0;
-        System.out.println("📄 Page title after submit: " + driver.getTitle());
-
-        if (isErrorDisplayed) {
-            System.out.println("✅ Error message displayed as expected.");
-        } else {
-            System.out.println("❌ No error message — review test or page behavior.");
-        }
-
-        driver.quit();
-        System.out.println("✅ Test completed.\n");
     }
 }
