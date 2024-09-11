@@ -17,13 +17,30 @@ public class TestFacebookRegistration {
         driver = new FirefoxDriver();
         driver.get("http://facebook.com");
         driver.manage().window().maximize();
-        driver.findElement(By.xpath(".//*[@id='email']")).sendKeys("iasjdiaosjd@gmail.com");
-        driver.findElement(By.xpath(".//*[@id='pass']")).sendKeys("Asdasd123!");
-        Select sel = new Select(driver.findElement(By.xpath(".//*[@id='month']")));
-        sel.selectByIndex(3);
-        driver.findElement(By.xpath(".//*[@id='u_0_2']")).click();
 
-        // 🆕 Take a screenshot after submission
+        // Fill login fields
+        driver.findElement(By.id("email")).sendKeys("iasjdiaosjd@gmail.com");
+        driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
+        System.out.println("🖋️ Entered email and password");
+
+        // 🆕 Select full birthdate (day, month, year)
+        new Select(driver.findElement(By.id("day"))).selectByVisibleText("15");
+        new Select(driver.findElement(By.id("month"))).selectByVisibleText("Apr");
+        new Select(driver.findElement(By.id("year"))).selectByVisibleText("1995");
+        System.out.println("📅 Selected birth date: Apr 15, 1995");
+
+        // 🆕 Select gender (Male)
+        try {
+            driver.findElement(By.xpath("//label[text()='Male']/preceding-sibling::input")).click();
+            System.out.println("👤 Selected gender: Male");
+        } catch (Exception e) {
+            System.out.println("⚠️ Gender selection failed: " + e.getMessage());
+        }
+
+        // Submit form
+        driver.findElement(By.name("websubmit")).click();
+
+        // Screenshot
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File src = ts.getScreenshotAs(OutputType.FILE);
@@ -33,9 +50,9 @@ public class TestFacebookRegistration {
             System.out.println("⚠️ Screenshot capture failed: " + e.getMessage());
         }
 
-        // 🆕 Validate if error message appeared
+        // Error message validation
         try {
-            Thread.sleep(3000); // Wait for the page to process submission
+            Thread.sleep(3000);
             boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required')]")).size() > 0;
             if (isErrorDisplayed) {
                 System.out.println("✅ Error message displayed as expected.");
