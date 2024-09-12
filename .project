@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>SEProjectN</name>
-	<comment>Full-stack Eclipse project with Java, Maven, Web, Spring, and team tooling support</comment>
+	<comment>Full-stack Eclipse project with Java, Maven, Web, Spring, testing, analysis, and team tooling support</comment>
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
 		<project>CoreServices</project>
 		<project>TeamUtils</project>
+		<project>AnalyticsModule</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -33,6 +34,14 @@
 			<name>org.eclipse.eclemma.core.instrumentationbuilder</name>
 			<arguments/>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.junit.JUnitBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sourceforge.pmd.eclipse.plugin.builder.PMDBuilder</name>
+			<arguments/>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
@@ -41,5 +50,6 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.eclipse.spring.ide.nature.simple</nature>
 		<nature>org.eclipse.egit.core.GitNature</nature>
+		<nature>org.eclipse.jdt.apt.core.aptNature</nature>
 	</natures>
 </projectDescription>
