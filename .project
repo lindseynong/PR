@@ -2,7 +2,7 @@
 <projectDescription>
 	<name>SEProjectN</name>
 	<comment>
-		Complete Eclipse project with Java, Maven, Web, Spring, EJB, JPA, JSF, Docker, Analytics, Testing, Monitoring, CI/CD, and full module integration
+		CI/CD-ready Eclipse project with support for Java, Maven, Spring, Web, JSF, JPA, EJB, EAR packaging, Docker, Testing, Validation, Monitoring, and third-party integration modules
 	</comment>
 	<projects>
 		<project>ExternalLibrary</project>
@@ -13,6 +13,7 @@
 		<project>DeploymentScripts</project>
 		<project>MonitoringServices</project>
 		<project>LegacyAdapter</project>
+		<project>ThirdPartyIntegrations</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -59,6 +60,10 @@
 			<name>org.eclipse.wst.validation.validationbuilder</name>
 			<arguments/>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jst.j2ee.web.WebContentBuilder</name>
+			<arguments/>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
@@ -72,5 +77,8 @@
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.jpt.core.jpanature</nature>
 		<nature>org.eclipse.jst.jsf.core.jsfnature</nature>
+		<nature>org.eclipse.jst.j2ee.ejb.EJBNature</nature>
+		<nature>org.eclipse.jst.jee.server.genericNature</nature>
+		<nature>org.eclipse.jst.ear.EARNature</nature>
 	</natures>
 </projectDescription>
