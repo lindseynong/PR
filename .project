@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>SEProjectN</name>
-	<comment>Enterprise Eclipse project with Java, Maven, Web, Spring, EJB, testing, deployment, and full dev tooling support</comment>
+	<comment>Production-ready Eclipse project with full-stack dev tools, CI/CD, EJB, Docker, analytics, and team-based modularity</comment>
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
@@ -9,6 +9,7 @@
 		<project>TeamUtils</project>
 		<project>AnalyticsModule</project>
 		<project>DeploymentScripts</project>
+		<project>MonitoringServices</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -47,6 +48,10 @@
 			<name>org.eclipse.wst.common.modulecore.DeploymentBuilder</name>
 			<arguments/>
 		</buildCommand>
+		<buildCommand>
+			<name>com.example.docker.build.builder</name>
+			<arguments/>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
@@ -57,5 +62,6 @@
 		<nature>org.eclipse.egit.core.GitNature</nature>
 		<nature>org.eclipse.jdt.apt.core.aptNature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
+		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 	</natures>
 </projectDescription>
