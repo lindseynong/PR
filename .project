@@ -2,7 +2,16 @@
 <projectDescription>
 	<name>SEProjectN</name>
 	<comment>
-		CI/CD-ready Eclipse project with support for Java, Maven, Spring, Web, JSF, JPA, EJB, EAR packaging, Docker, Testing, Validation, Monitoring, and third-party integration modules
+	===========================================================================
+	  ██████╗ ███████╗    ███████╗███████╗██████╗ ███████╗██████╗ ██╗   ██╗
+	  ██╔══██╗██╔════╝    ██╔════╝██╔════╝██╔══██╗██╔════╝██╔══██╗╚██╗ ██╔╝
+	  ██████╔╝█████╗      ███████╗█████╗  ██████╔╝█████╗  ██████╔╝ ╚████╔╝ 
+	  ██╔═══╝ ██╔══╝      ╚════██║██╔══╝  ██╔═══╝ ██╔══╝  ██╔═══╝   ╚██╔╝  
+	  ██║     ███████╗    ███████║███████╗██║     ███████╗██║        ██║   
+	  ╚═╝     ╚══════╝    ╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝        ╚═╝   
+
+	      Full-stack, CI/CD-ready, microservice-enabled, and dev-team optimized
+	===========================================================================
 	</comment>
 	<projects>
 		<project>ExternalLibrary</project>
@@ -14,6 +23,7 @@
 		<project>MonitoringServices</project>
 		<project>LegacyAdapter</project>
 		<project>ThirdPartyIntegrations</project>
+		<project>DesignSystemKit</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -29,11 +39,11 @@
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>com.example.custom.validation.builder</name>
+			<name>org.eclipse.wst.validation.validationbuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
+			<name>org.eclipse.jdt.junit.JUnitBuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
@@ -41,7 +51,11 @@
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.jdt.junit.JUnitBuilder</name>
+			<name>com.example.custom.validation.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sf.eclipsecs.core.CheckstyleBuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
@@ -57,11 +71,11 @@
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.wst.validation.validationbuilder</name>
+			<name>org.eclipse.jst.j2ee.web.WebContentBuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.jst.j2ee.web.WebContentBuilder</name>
+			<name>com.example.static.site.generator.builder</name>
 			<arguments/>
 		</buildCommand>
 	</buildSpec>
@@ -78,7 +92,8 @@
 		<nature>org.eclipse.jpt.core.jpanature</nature>
 		<nature>org.eclipse.jst.jsf.core.jsfnature</nature>
 		<nature>org.eclipse.jst.j2ee.ejb.EJBNature</nature>
-		<nature>org.eclipse.jst.jee.server.genericNature</nature>
 		<nature>org.eclipse.jst.ear.EARNature</nature>
+		<nature>org.eclipse.jst.jee.server.genericNature</nature>
+		<nature>org.eclipse.wst.xml.core.xmlnature</nature>
 	</natures>
 </projectDescription>
