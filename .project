@@ -2,17 +2,19 @@
 <projectDescription>
 	<name>SEProjectN</name>
 	<comment>
-	===========================================================================
-	🚀 SEProjectN: Eclipse Mega Config
-	🌐 Full-stack ⛓️ Modular 🔁 CI/CD ☁️ Cloud-Native 🧠 AI-Ready
+	═════════════════════════════════════════════════════════════════════════
+	  SEProjectN: Eclipse Hyperproject vX
 
-	@version 9.0-dev-snapshot
-	@maintainer Team Aether, 2025+
-	===========================================================================
+	  ☁️ Cloud-native  | 🤖 AI-assisted  | 🧪 Test-oriented | ⚙️ DevOps-Ready  
+	  🔐 Secure        | 🗃 Modular       | 📈 Observable     | 🛰️ Self-healing
+
+	  Version: X.0.∞-meta | Maintainer: You, the fearless Eclipse hacker 💻
+	═════════════════════════════════════════════════════════════════════════
 	</comment>
 
-	<!-- TODO: Ensure compatibility with Eclipse 2023-12 and newer -->
-	<!-- HACK: Watch out for duplicate builders if using custom launch configs -->
+	<!-- NOTE: This project uses future-facing features. Plugins may need updating. -->
+	<!-- TODO: Add support for live AI pair programming via WebSocket LLM bridge -->
+	<!-- DOCGEN: This config is auto-readable by bots for automated diagram generation -->
 
 	<projects>
 		<project>ExternalLibrary</project>
@@ -26,6 +28,7 @@
 		<project>ThirdPartyIntegrations</project>
 		<project>DesignSystemKit</project>
 		<project>AIAssistModules</project>
+		<project>LLMOptimizers</project>
 	</projects>
 
 	<buildSpec>
@@ -66,10 +69,6 @@
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>com.example.static.site.generator.builder</name>
-			<arguments/>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.jst.j2ee.web.WebContentBuilder</name>
 			<arguments/>
 		</buildCommand>
@@ -79,6 +78,18 @@
 		</buildCommand>
 		<buildCommand>
 			<name>com.cicd.workflow.sync.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.cloudnative.k8s.config.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.eclipse.future.codereview.AITriggerBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.eclipse.digitaltwin.envbuilder</name>
 			<arguments/>
 		</buildCommand>
 	</buildSpec>
@@ -101,5 +112,6 @@
 		<nature>org.eclipse.wst.xml.core.xmlnature</nature>
 		<nature>com.openai.eclipse.AIAssistantNature</nature>
 		<nature>com.cicd.workflow.pipelineAwareNature</nature>
+		<nature>com.kubernetes.eclipse.ClusterAwareNature</nature>
 	</natures>
 </projectDescription>
