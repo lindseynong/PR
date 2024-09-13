@@ -3,16 +3,17 @@
 	<name>SEProjectN</name>
 	<comment>
 	===========================================================================
-	  ██████╗ ███████╗    ███████╗███████╗██████╗ ███████╗██████╗ ██╗   ██╗
-	  ██╔══██╗██╔════╝    ██╔════╝██╔════╝██╔══██╗██╔════╝██╔══██╗╚██╗ ██╔╝
-	  ██████╔╝█████╗      ███████╗█████╗  ██████╔╝█████╗  ██████╔╝ ╚████╔╝ 
-	  ██╔═══╝ ██╔══╝      ╚════██║██╔══╝  ██╔═══╝ ██╔══╝  ██╔═══╝   ╚██╔╝  
-	  ██║     ███████╗    ███████║███████╗██║     ███████╗██║        ██║   
-	  ╚═╝     ╚══════╝    ╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝        ╚═╝   
+	🚀 SEProjectN: Eclipse Mega Config
+	🌐 Full-stack ⛓️ Modular 🔁 CI/CD ☁️ Cloud-Native 🧠 AI-Ready
 
-	      Full-stack, CI/CD-ready, microservice-enabled, and dev-team optimized
+	@version 9.0-dev-snapshot
+	@maintainer Team Aether, 2025+
 	===========================================================================
 	</comment>
+
+	<!-- TODO: Ensure compatibility with Eclipse 2023-12 and newer -->
+	<!-- HACK: Watch out for duplicate builders if using custom launch configs -->
+
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
@@ -24,7 +25,9 @@
 		<project>LegacyAdapter</project>
 		<project>ThirdPartyIntegrations</project>
 		<project>DesignSystemKit</project>
+		<project>AIAssistModules</project>
 	</projects>
+
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
@@ -32,10 +35,6 @@
 		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
-			<arguments/>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
@@ -48,10 +47,6 @@
 		</buildCommand>
 		<buildCommand>
 			<name>org.eclipse.eclemma.core.instrumentationbuilder</name>
-			<arguments/>
-		</buildCommand>
-		<buildCommand>
-			<name>com.example.custom.validation.builder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
@@ -71,14 +66,23 @@
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
+			<name>com.example.static.site.generator.builder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.jst.j2ee.web.WebContentBuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
-			<name>com.example.static.site.generator.builder</name>
+			<name>com.openai.eclipse.AIAssistantBuilder</name>
+			<arguments/>
+		</buildCommand>
+		<buildCommand>
+			<name>com.cicd.workflow.sync.builder</name>
 			<arguments/>
 		</buildCommand>
 	</buildSpec>
+
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
@@ -95,5 +99,7 @@
 		<nature>org.eclipse.jst.ear.EARNature</nature>
 		<nature>org.eclipse.jst.jee.server.genericNature</nature>
 		<nature>org.eclipse.wst.xml.core.xmlnature</nature>
+		<nature>com.openai.eclipse.AIAssistantNature</nature>
+		<nature>com.cicd.workflow.pipelineAwareNature</nature>
 	</natures>
 </projectDescription>
