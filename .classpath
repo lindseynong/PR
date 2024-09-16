@@ -2,11 +2,19 @@
 <projectDescription>
 	<name>SEProjectN</name>
 	<comment>
-	🌐 SEProjectN - Ultimate Eclipse Project Configuration
-	Supports: Java, Maven, Spring, Jakarta EE, GraphQL, DevOps, Testing, Cloud, Observability, Security
-	🧠 Auto-documentation: enabled
-	🔄 Lifecycle: long-term support (LTS), CI/CD-connected
+	🚀 SEProjectN – Intelligent, Modular, Secure
+
+	🧠 Features:
+	- Full-stack Java/Maven/Spring support
+	- DevOps ready: CI/CD, changelogs, profiling, security
+	- Cloud-native + API gateway control
+	- AI + observability integrations
+	- TestContainers, Jakarta EE, GraphQL
+
+	✅ AI Audit & Compliance Ready
+	🔄 Collaborative Development Mode: ON
 	</comment>
+
 	<projects>
 		<project>ExternalLibrary</project>
 		<project>SharedResources</project>
@@ -18,7 +26,9 @@
 		<project>CloudConnectors</project>
 		<project>SecurityLayer</project>
 		<project>ObservabilityStack</project>
+		<project>CollabTools</project>
 	</projects>
+
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
@@ -80,7 +90,12 @@
 			<name>com.testcontainers.lifecycle.builder</name>
 			<arguments/>
 		</buildCommand>
+		<buildCommand>
+			<name>com.license.checker.scanner.builder</name>
+			<arguments/>
+		</buildCommand>
 	</buildSpec>
+
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
@@ -93,5 +108,6 @@
 		<nature>org.eclipse.jst.ear.EARNature</nature>
 		<nature>org.eclipse.jakarta.core.jakartanature</nature>
 		<nature>org.eclipse.testcontainers.dockerAwareNature</nature>
+		<nature>com.apigateway.eclipse.gatewayAwareNature</nature>
 	</natures>
 </projectDescription>
