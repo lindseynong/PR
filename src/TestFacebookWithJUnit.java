@@ -25,25 +25,27 @@ public class TestFacebookWithJUnit {
 
     private final String email;
     private final String password;
+    private final String gender;
     private final int index;
     static WebDriver driver;
     FirefoxOptions options = new FirefoxOptions();
     static String timestamp;
 
-    // 🧪 Constructor: receives data for each run
-    public TestFacebookWithJUnit(String email, String password, int index) {
+    // ✅ Constructor: receives data for each run
+    public TestFacebookWithJUnit(String email, String password, String gender, int index) {
         this.email = email;
         this.password = password;
+        this.gender = gender;
         this.index = index;
     }
 
-    // 🆕 Provide parameters
+    // ✅ Provide parameters
     @Parameterized.Parameters
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][] {
-            {"user1@example.com", "Test123!", 1},
-            {"user2@example.com", "Invalid!", 2},
-            {"user3@example.com", "AsdfQwe123", 3}
+            {"user1@example.com", "Test123!", "Male", 1},
+            {"user2@example.com", "Invalid!", "Female", 2},
+            {"user3@example.com", "AsdfQwe123", "Custom", 3}
         });
     }
 
@@ -100,11 +102,14 @@ public class TestFacebookWithJUnit {
         new Select(driver.findElement(By.id("month"))).selectByVisibleText("Jun");
         new Select(driver.findElement(By.id("year"))).selectByVisibleText("1990");
 
+        // ✅ Gender selection based on parameter
         try {
-            WebElement genderRadio = driver.findElement(By.xpath("//label[text()='Male']/preceding-sibling::input"));
+            String xpath = String.format("//label[text()='%s']/preceding-sibling::input", gender);
+            WebElement genderRadio = driver.findElement(By.xpath(xpath));
             genderRadio.click();
+            System.out.println("👤 Selected gender: " + gender);
         } catch (Exception e) {
-            System.out.println("⚠️ Gender selection failed.");
+            System.out.println("⚠️ Gender selection failed for: " + gender);
         }
 
         driver.findElement(By.name("websubmit")).click();
