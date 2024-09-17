@@ -35,7 +35,9 @@ public class TestFacebookWithJUnit {
     FirefoxOptions options = new FirefoxOptions();
     static String timestamp;
 
-    // ✅ Constructor: now includes birthdate
+    static boolean isHeadless;
+    static int timeoutSeconds;
+
     public TestFacebookWithJUnit(String email, String password, String gender, String birthDay, String birthMonth, String birthYear, int index) {
         this.email = email;
         this.password = password;
@@ -46,7 +48,6 @@ public class TestFacebookWithJUnit {
         this.index = index;
     }
 
-    // ✅ Test data now includes birthdate
     @Parameterized.Parameters
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][] {
@@ -72,13 +73,22 @@ public class TestFacebookWithJUnit {
     @Before
     public void setUp() {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        // Load dynamic settings
+        isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        timeoutSeconds = Integer.parseInt(System.getProperty("timeout", "10"));
+
         System.setProperty("webdriver.gecko.driver", "C:\\Users\\Computer\\Desktop\\geckodriver.exe");
+
         options.addPreference("browser.tabs.remote.autostart", false);
+        if (isHeadless) {
+            options.addArguments("--headless");
+        }
+
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
-        System.out.println("🚀 [" + timestamp + "] Starting test #" + index + " with:");
-        System.out.println("    📧 " + email);
-        System.out.println("    👤 " + gender + ", 🎂 " + birthDay + " " + birthMonth + " " + birthYear);
+
+        logTestMetadata();
     }
 
     @After
@@ -101,6 +111,16 @@ public class TestFacebookWithJUnit {
         }
     }
 
+    private void logTestMetadata() {
+        System.out.println("🚀 Test #" + index);
+        System.out.println("    👤 Gender: " + gender);
+        System.out.println("    🎂 DOB: " + birthDay + " " + birthMonth + " " + birthYear);
+        System.out.println("    📧 Email: " + email);
+        System.out.println("    🔍 Headless: " + isHeadless);
+        System.out.println("    ⏱ Timeout: " + timeoutSeconds + "s");
+        System.out.println("    🧪 Platform: " + System.getProperty("os.name"));
+    }
+
     @Test
     public void testFacebookSignupFormWithMultipleData() {
         driver.get("http://facebook.com");
@@ -108,7 +128,6 @@ public class TestFacebookWithJUnit {
         driver.findElement(By.id("email")).sendKeys(email);
         driver.findElement(By.id("pass")).sendKeys(password);
 
-        // ✅ Set dynamic birthdate
         new Select(driver.findElement(By.id("day"))).selectByVisibleText(birthDay);
         new Select(driver.findElement(By.id("month"))).selectByVisibleText(birthMonth);
         new Select(driver.findElement(By.id("year"))).selectByVisibleText(birthYear);
@@ -124,7 +143,7 @@ public class TestFacebookWithJUnit {
 
         driver.findElement(By.name("websubmit")).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
         boolean errorAppeared = false;
         try {
             WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(
