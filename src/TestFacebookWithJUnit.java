@@ -26,26 +26,33 @@ public class TestFacebookWithJUnit {
     private final String email;
     private final String password;
     private final String gender;
+    private final String birthDay;
+    private final String birthMonth;
+    private final String birthYear;
     private final int index;
+
     static WebDriver driver;
     FirefoxOptions options = new FirefoxOptions();
     static String timestamp;
 
-    // ✅ Constructor: receives data for each run
-    public TestFacebookWithJUnit(String email, String password, String gender, int index) {
+    // ✅ Constructor: now includes birthdate
+    public TestFacebookWithJUnit(String email, String password, String gender, String birthDay, String birthMonth, String birthYear, int index) {
         this.email = email;
         this.password = password;
         this.gender = gender;
+        this.birthDay = birthDay;
+        this.birthMonth = birthMonth;
+        this.birthYear = birthYear;
         this.index = index;
     }
 
-    // ✅ Provide parameters
+    // ✅ Test data now includes birthdate
     @Parameterized.Parameters
     public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][] {
-            {"user1@example.com", "Test123!", "Male", 1},
-            {"user2@example.com", "Invalid!", "Female", 2},
-            {"user3@example.com", "AsdfQwe123", "Custom", 3}
+            {"user1@example.com", "Test123!", "Male", "15", "Apr", "1992", 1},
+            {"user2@example.com", "Invalid!", "Female", "23", "Sep", "1985", 2},
+            {"user3@example.com", "AsdfQwe123", "Custom", "8", "Jan", "2000", 3}
         });
     }
 
@@ -69,7 +76,9 @@ public class TestFacebookWithJUnit {
         options.addPreference("browser.tabs.remote.autostart", false);
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
-        System.out.println("🚀 [" + timestamp + "] Starting test #" + index + " with email: " + email);
+        System.out.println("🚀 [" + timestamp + "] Starting test #" + index + " with:");
+        System.out.println("    📧 " + email);
+        System.out.println("    👤 " + gender + ", 🎂 " + birthDay + " " + birthMonth + " " + birthYear);
     }
 
     @After
@@ -98,11 +107,12 @@ public class TestFacebookWithJUnit {
 
         driver.findElement(By.id("email")).sendKeys(email);
         driver.findElement(By.id("pass")).sendKeys(password);
-        new Select(driver.findElement(By.id("day"))).selectByVisibleText("10");
-        new Select(driver.findElement(By.id("month"))).selectByVisibleText("Jun");
-        new Select(driver.findElement(By.id("year"))).selectByVisibleText("1990");
 
-        // ✅ Gender selection based on parameter
+        // ✅ Set dynamic birthdate
+        new Select(driver.findElement(By.id("day"))).selectByVisibleText(birthDay);
+        new Select(driver.findElement(By.id("month"))).selectByVisibleText(birthMonth);
+        new Select(driver.findElement(By.id("year"))).selectByVisibleText(birthYear);
+
         try {
             String xpath = String.format("//label[text()='%s']/preceding-sibling::input", gender);
             WebElement genderRadio = driver.findElement(By.xpath(xpath));
