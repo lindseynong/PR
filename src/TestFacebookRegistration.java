@@ -20,6 +20,7 @@ public class TestFacebookRegistration {
     static String timestamp;
     static String logPath;
     static String htmlReportPath;
+    static String summaryPath = "C:\\Users\\Computer\\Desktop\\fb_test_summary.html";
     static boolean isWindows;
 
     public static void main(String[] args) {
@@ -31,8 +32,8 @@ public class TestFacebookRegistration {
         htmlReportPath = "C:\\Users\\Computer\\Desktop\\fb_test_report_" + timestamp + ".html";
 
         TestParams params = parseArgs(args);
-
         int exitCode = 0;
+        String resultStatus = "PASS";
 
         setDriverPathByOS(params.browser);
         driver = params.browser.equals("chrome") ? new ChromeDriver() : new FirefoxDriver();
@@ -70,27 +71,31 @@ public class TestFacebookRegistration {
             boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required') or contains(text(), 'invalid')]")).size() > 0;
             log("📄 Page title: " + driver.getTitle());
 
-            if (isErrorDisplayed) {
-                log("✅ Error message detected.");
-            } else {
+            if (!isErrorDisplayed) {
                 log("❌ No error message found.");
+                resultStatus = "FAIL";
                 exitCode = 1;
+            } else {
+                log("✅ Error message detected.");
             }
 
         } catch (Exception e) {
             log("💥 Test failed: " + e.getMessage());
             takeScreenshot("error");
+            resultStatus = "ERROR";
             exitCode = 2;
         } finally {
             driver.quit();
             double duration = (System.currentTimeMillis() - startTime) / 1000.0;
             log("⏱️ Duration: " + duration + "s");
-            log("🏁 Test completed with exit code: " + exitCode);
+            log("🏁 Status: " + resultStatus);
+
+            updateSummary(params, resultStatus, duration);
             logHtml("<p><b>See:</b> <a href='" + logPath + "'>Text Log</a></p>");
 
             if (isWindows) {
                 try {
-                    Runtime.getRuntime().exec("explorer \"" + htmlReportPath + "\"");
+                    Runtime.getRuntime().exec("explorer \"" + summaryPath + "\"");
                 } catch (IOException ignored) {}
             }
 
@@ -139,28 +144,20 @@ public class TestFacebookRegistration {
         } catch (IOException ignored) {}
     }
 
+    private static void updateSummary(TestParams params, String status, double duration) {
+        File summary = new File(summaryPath);
+        boolean isNew = !summary.exists();
+        try (FileWriter fw = new FileWriter(summary, true)) {
+            if (isNew) {
+                fw.write("<html><head><title>FB Test Summary</title></head><body><h1>📊 Facebook Test History</h1><table border='1'>\n");
+                fw.write("<tr><th>Timestamp</th><th>Email</th><th>Gender</th><th>Browser</th><th>Duration (s)</th><th>Status</th></tr>\n");
+            }
+            fw.write(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%.2f</td><td style='color:%s;'>%s</td></tr>\n",
+                    timestamp, params.email, params.gender, params.browser, duration,
+                    status.equals("PASS") ? "green" : "red", status));
+            if (isNew) fw.write("</table></body></html>");
+        } catch (IOException ignored) {}
+    }
+
     private static TestParams parseArgs(String[] args) {
-        String prefix = args.length > 0 ? args[0] : "user";
-        String gender = args.length > 1 ? args[1] : "Male";
-        String day = args.length > 2 ? args[2] : "10";
-        String month = args.length > 3 ? args[3] : "Jan";
-        String year = args.length > 4 ? args[4] : "1990";
-        String browser = args.length > 5 ? args[5].toLowerCase() : "firefox";
-
-        String email = prefix + "_" + UUID.randomUUID().toString().substring(0, 6) + "@example.com";
-
-        return new TestParams(email, gender, day, month, year, browser);
-    }
-
-    static class TestParams {
-        String email, gender, day, month, year, browser;
-        TestParams(String email, String gender, String day, String month, String year, String browser) {
-            this.email = email;
-            this.gender = gender;
-            this.day = day;
-            this.month = month;
-            this.year = year;
-            this.browser = browser;
-        }
-    }
-}
+        String prefix = args.length > 0 ?
