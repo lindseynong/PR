@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -18,30 +19,33 @@ public class TestFacebookRegistration {
     static WebDriver driver;
     static String timestamp;
     static String logPath;
+    static String htmlReportPath;
+    static boolean isWindows;
 
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        logPath = "C:\\Users\\Computer\\Desktop\\fb_test_log_" + timestamp.substring(0, 8) + ".txt";
 
-        // ✅ Parse arguments
+        isWindows = System.getProperty("os.name").toLowerCase().contains("win");
+        logPath = "C:\\Users\\Computer\\Desktop\\fb_test_log_" + timestamp + ".txt";
+        htmlReportPath = "C:\\Users\\Computer\\Desktop\\fb_test_report_" + timestamp + ".html";
+
         TestParams params = parseArgs(args);
 
-        setDriverPathByOS();
-        driver = new FirefoxDriver();
+        int exitCode = 0;
+
+        setDriverPathByOS(params.browser);
+        driver = params.browser.equals("chrome") ? new ChromeDriver() : new FirefoxDriver();
         driver.get("http://facebook.com");
         driver.manage().window().maximize();
 
-        log("🚀 Test started at " + timestamp);
-        log("📧 Using email: " + params.email);
+        logHtml("<h2>🚀 Facebook Test Run - " + timestamp + "</h2>");
+        log("📧 Email: " + params.email);
         log("👤 Gender: " + params.gender);
-        log("🎂 Birthday: " + params.day + " " + params.month + " " + params.year);
+        log("🎂 DOB: " + params.day + " " + params.month + " " + params.year);
+        log("🌐 Browser: " + params.browser);
 
         try {
-            if (driver.findElements(By.id("email")).isEmpty() || driver.findElements(By.id("pass")).isEmpty()) {
-                throw new RuntimeException("❌ Email or password field not found.");
-            }
-
             driver.findElement(By.id("email")).sendKeys(params.email);
             driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
             log("🖋️ Entered credentials.");
@@ -56,97 +60,107 @@ public class TestFacebookRegistration {
                 driver.findElement(By.xpath(xpath)).click();
                 log("👤 Selected gender: " + params.gender);
             } catch (Exception e) {
-                log("⚠️ Could not select gender: " + e.getMessage());
+                log("⚠️ Gender selection failed: " + e.getMessage());
             }
 
-            log("📄 Page title before submit: " + driver.getTitle());
             driver.findElement(By.name("websubmit")).click();
-
             Thread.sleep(3000);
             takeScreenshot("submission");
 
             boolean isErrorDisplayed = driver.findElements(By.xpath("//*[contains(text(), 'required') or contains(text(), 'invalid')]")).size() > 0;
-            log("📄 Page title after submit: " + driver.getTitle());
+            log("📄 Page title: " + driver.getTitle());
 
             if (isErrorDisplayed) {
-                log("✅ Error message displayed.");
+                log("✅ Error message detected.");
             } else {
                 log("❌ No error message found.");
+                exitCode = 1;
             }
 
         } catch (Exception e) {
             log("💥 Test failed: " + e.getMessage());
             takeScreenshot("error");
+            exitCode = 2;
         } finally {
             driver.quit();
-            long duration = System.currentTimeMillis() - startTime;
-            log("⏱️ Total execution time: " + (duration / 1000.0) + " seconds");
-            log("🏁 Test finished.");
-            log("═══════════════════════════════════════════\n");
+            double duration = (System.currentTimeMillis() - startTime) / 1000.0;
+            log("⏱️ Duration: " + duration + "s");
+            log("🏁 Test completed with exit code: " + exitCode);
+            logHtml("<p><b>See:</b> <a href='" + logPath + "'>Text Log</a></p>");
+
+            if (isWindows) {
+                try {
+                    Runtime.getRuntime().exec("explorer \"" + htmlReportPath + "\"");
+                } catch (IOException ignored) {}
+            }
+
+            System.exit(exitCode);
         }
     }
 
-    // ✅ Modular screenshot
     private static void takeScreenshot(String label) {
         try {
             TakesScreenshot ts = (TakesScreenshot) driver;
             File src = ts.getScreenshotAs(OutputType.FILE);
-            String filePath = "C:\\Users\\Computer\\Desktop\\fb_" + label + "_" + timestamp + ".png";
-            FileUtils.copyFile(src, new File(filePath));
-            log("📸 Screenshot saved: " + filePath);
+            String path = "C:\\Users\\Computer\\Desktop\\fb_" + label + "_" + timestamp + ".png";
+            FileUtils.copyFile(src, new File(path));
+            log("📸 Screenshot saved: " + path);
+            logHtml("<p>📸 Screenshot: <a href='" + path + "'>" + label + "</a></p>");
         } catch (IOException e) {
             log("⚠️ Screenshot error: " + e.getMessage());
         }
     }
 
-    // ✅ Detect OS and set gecko driver path accordingly
-    private static void setDriverPathByOS() {
+    private static void setDriverPathByOS(String browser) {
         String os = System.getProperty("os.name").toLowerCase();
-        String driverPath;
-        if (os.contains("win")) {
-            driverPath = "C:\\Users\\Computer\\Desktop\\geckodriver.exe";
-        } else if (os.contains("mac")) {
-            driverPath = "/usr/local/bin/geckodriver";
+        String driverPath = browser.equals("chrome") ?
+            (os.contains("win") ? "C:\\Users\\Computer\\Desktop\\chromedriver.exe" : "/usr/bin/chromedriver") :
+            (os.contains("win") ? "C:\\Users\\Computer\\Desktop\\geckodriver.exe" : "/usr/bin/geckodriver");
+
+        if (browser.equals("chrome")) {
+            System.setProperty("webdriver.chrome.driver", driverPath);
         } else {
-            driverPath = "/usr/bin/geckodriver";
+            System.setProperty("webdriver.gecko.driver", driverPath);
         }
-        System.setProperty("webdriver.gecko.driver", driverPath);
-        log("🖥️ OS detected: " + os + ", driver path set to: " + driverPath);
+
+        log("🖥️ OS: " + os + " | Driver path set: " + driverPath);
     }
 
-    // ✅ Logging to both console and file
     private static void log(String message) {
         System.out.println(message);
-        try (FileWriter writer = new FileWriter(logPath, true)) {
-            writer.write(message + "\n");
-        } catch (IOException e) {
-            System.out.println("⚠️ Failed to write to log file: " + e.getMessage());
-        }
+        try (FileWriter fw = new FileWriter(logPath, true)) {
+            fw.write(message + "\n");
+        } catch (IOException ignored) {}
     }
 
-    // ✅ Parse optional args or fallback to defaults
+    private static void logHtml(String html) {
+        try (FileWriter fw = new FileWriter(htmlReportPath, true)) {
+            fw.write(html + "\n");
+        } catch (IOException ignored) {}
+    }
+
     private static TestParams parseArgs(String[] args) {
         String prefix = args.length > 0 ? args[0] : "user";
         String gender = args.length > 1 ? args[1] : "Male";
         String day = args.length > 2 ? args[2] : "10";
         String month = args.length > 3 ? args[3] : "Jan";
         String year = args.length > 4 ? args[4] : "1990";
+        String browser = args.length > 5 ? args[5].toLowerCase() : "firefox";
 
         String email = prefix + "_" + UUID.randomUUID().toString().substring(0, 6) + "@example.com";
 
-        return new TestParams(email, gender, day, month, year);
+        return new TestParams(email, gender, day, month, year, browser);
     }
 
-    // ✅ Helper data class
     static class TestParams {
-        String email, gender, day, month, year;
-
-        TestParams(String email, String gender, String day, String month, String year) {
+        String email, gender, day, month, year, browser;
+        TestParams(String email, String gender, String day, String month, String year, String browser) {
             this.email = email;
             this.gender = gender;
             this.day = day;
             this.month = month;
             this.year = year;
+            this.browser = browser;
         }
     }
 }
