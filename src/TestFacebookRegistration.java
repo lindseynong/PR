@@ -19,13 +19,13 @@ public class TestFacebookRegistration {
     static String timestamp;
     static String logPath;
 
-    public static void main(String[] ar) {
+    public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         logPath = "C:\\Users\\Computer\\Desktop\\fb_test_log_" + timestamp.substring(0, 8) + ".txt";
 
-        String randomEmail = "user_" + UUID.randomUUID().toString().substring(0, 6) + "@example.com";
-        String genderToSelect = "Male";
+        // ✅ Parse arguments
+        TestParams params = parseArgs(args);
 
         setDriverPathByOS();
         driver = new FirefoxDriver();
@@ -33,27 +33,28 @@ public class TestFacebookRegistration {
         driver.manage().window().maximize();
 
         log("🚀 Test started at " + timestamp);
-        log("📧 Using random email: " + randomEmail);
+        log("📧 Using email: " + params.email);
+        log("👤 Gender: " + params.gender);
+        log("🎂 Birthday: " + params.day + " " + params.month + " " + params.year);
+
         try {
             if (driver.findElements(By.id("email")).isEmpty() || driver.findElements(By.id("pass")).isEmpty()) {
                 throw new RuntimeException("❌ Email or password field not found.");
             }
 
-            driver.findElement(By.id("email")).sendKeys(randomEmail);
+            driver.findElement(By.id("email")).sendKeys(params.email);
             driver.findElement(By.id("pass")).sendKeys("Asdasd123!");
             log("🖋️ Entered credentials.");
 
-            // 📅 Birthdate
-            new Select(driver.findElement(By.id("day"))).selectByVisibleText("15");
-            new Select(driver.findElement(By.id("month"))).selectByVisibleText("Apr");
-            new Select(driver.findElement(By.id("year"))).selectByVisibleText("1995");
+            new Select(driver.findElement(By.id("day"))).selectByVisibleText(params.day);
+            new Select(driver.findElement(By.id("month"))).selectByVisibleText(params.month);
+            new Select(driver.findElement(By.id("year"))).selectByVisibleText(params.year);
             log("📅 Selected birth date.");
 
-            // 👤 Gender
             try {
-                String xpath = String.format("//label[text()='%s']/preceding-sibling::input", genderToSelect);
+                String xpath = String.format("//label[text()='%s']/preceding-sibling::input", params.gender);
                 driver.findElement(By.xpath(xpath)).click();
-                log("👤 Selected gender: " + genderToSelect);
+                log("👤 Selected gender: " + params.gender);
             } catch (Exception e) {
                 log("⚠️ Could not select gender: " + e.getMessage());
             }
@@ -113,13 +114,39 @@ public class TestFacebookRegistration {
         log("🖥️ OS detected: " + os + ", driver path set to: " + driverPath);
     }
 
-    // ✅ Log to console and file
+    // ✅ Logging to both console and file
     private static void log(String message) {
         System.out.println(message);
         try (FileWriter writer = new FileWriter(logPath, true)) {
             writer.write(message + "\n");
         } catch (IOException e) {
             System.out.println("⚠️ Failed to write to log file: " + e.getMessage());
+        }
+    }
+
+    // ✅ Parse optional args or fallback to defaults
+    private static TestParams parseArgs(String[] args) {
+        String prefix = args.length > 0 ? args[0] : "user";
+        String gender = args.length > 1 ? args[1] : "Male";
+        String day = args.length > 2 ? args[2] : "10";
+        String month = args.length > 3 ? args[3] : "Jan";
+        String year = args.length > 4 ? args[4] : "1990";
+
+        String email = prefix + "_" + UUID.randomUUID().toString().substring(0, 6) + "@example.com";
+
+        return new TestParams(email, gender, day, month, year);
+    }
+
+    // ✅ Helper data class
+    static class TestParams {
+        String email, gender, day, month, year;
+
+        TestParams(String email, String gender, String day, String month, String year) {
+            this.email = email;
+            this.gender = gender;
+            this.day = day;
+            this.month = month;
+            this.year = year;
         }
     }
 }
